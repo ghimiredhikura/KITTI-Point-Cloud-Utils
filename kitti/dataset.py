@@ -5,8 +5,8 @@ import torch.utils.data as torch_data
 class KittiDataset(torch_data.Dataset):
     def __init__(self, root_dir, split='list', set='sampledata'):
         self.split = split
-        self.imageset_dir = os.path.join(root_dir, 'KITTI', set)
-        split_dir = os.path.join(root_dir, 'KITTI', set, split+'.txt')
+        self.imageset_dir = os.path.join(root_dir, 'KITTI', 'object', set)
+        split_dir = os.path.join(root_dir, 'KITTI', 'object', set, split+'.txt')
         self.image_idx_list = [x.strip() for x in open(split_dir).readlines()]
         self.num_samples = self.image_idx_list.__len__()
 

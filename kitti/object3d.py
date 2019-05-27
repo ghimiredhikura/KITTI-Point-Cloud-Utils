@@ -1,5 +1,5 @@
 import numpy as np
-from src.config import CLASS_NAME_TO_ID
+from kitti.config import CLASS_NAME_TO_ID
 
 class Object3d(object):
     def __init__(self, line):
