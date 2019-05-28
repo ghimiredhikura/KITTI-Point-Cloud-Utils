@@ -1,9 +1,11 @@
 ## KittiPointCloudUtils
 
-This repo serves as kitti point cloud dataset utilities. Following are the main functionality.
-I am sharing this because if someone is working with kitti point cloud for the first time, this one is going to save your a lot of time. 
+This repo serves as kitti point cloud dataset utilities. If someone 
+is working with kitti point cloud for the first time, this one is going to save a lot of time. 
 
 Thank me later. ^^ 
+
+Following are the main functionality.
 
 1. *Load Point Cloud and filter out points that are not in range of front camera fov*  
 2. *Display Point Cloud with object bbox using mayavi library*  
