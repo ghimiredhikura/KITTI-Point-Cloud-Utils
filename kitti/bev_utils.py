@@ -111,6 +111,38 @@ def build_yolo_target(labels, bc):
 
     return target
 
+def inverse_yolo_target(targets, bc):
+    ntargets = 0
+    for i, t in enumerate(targets):
+        if t.sum(0):ntargets += 1
+    
+    labels = np.zeros([ntargets, 8], dtype=np.float32)
+
+    n = 0
+    for t in targets:
+        if t.sum(0) == 0:
+            continue
+
+        c, y, x, w, l, im, re = t        
+        z, h = -1.55, 1.5
+        if c == 1: 
+            h = 1.8
+        elif c == 2:
+            h = 1.4
+
+        y = y * (bc["maxY"] - bc["minY"]) + bc["minY"]
+        x = x * (bc["maxX"] - bc["minX"]) + bc["minX"]
+        w = w * (bc["maxY"] - bc["minY"])
+        l = l * (bc["maxX"] - bc["minX"])
+
+        w -= 0.3
+        l -= 0.3
+
+        labels[n, :] = c, x, y, z, h, w, l, - np.arctan2(im, re) - 2*np.pi
+        n += 1
+
+    return labels
+
 # bev image coordinates format
 def get_corners(x, y, w, l, yaw):
     bev_corners = np.zeros((4, 2), dtype=np.float32)
@@ -144,45 +176,10 @@ def drawRotatedBox(img,x,y,w,l,yaw,color):
 def draw_box_in_bev(rgb_map, target):
     for j in range(50):
         if(np.sum(target[j,1:]) == 0):continue
-
         cls_id = int(target[j][0])
         x = target[j][1] * cnf.BEV_WIDTH
         y = target[j][2] * cnf.BEV_HEIGHT
         w = target[j][3] * cnf.BEV_WIDTH
         l = target[j][4] * cnf.BEV_HEIGHT
-        im = target[j][5]
-        re = target[j][6]
-
-        yaw = np.arctan2(im, re)
-        print(yaw)
-
+        yaw = np.arctan2(target[j][5], target[j][6])
         drawRotatedBox(rgb_map, x, y, w, l, yaw, cnf.colors[cls_id])
-    print("")
-
-def inverse_yolo_target(targets, bc):
-    ntargets = 0
-    for i, t in enumerate(targets):
-        if t.sum(0):ntargets += 1
-    
-    labels = np.zeros([ntargets, 8], dtype=np.float32)
-
-    n = 0
-    for t in targets:
-        if t.sum(0) == 0:
-            continue
-
-        c, y, x, w, l, im, re = t
-        z, h = 0, 1.7
-        
-        y = y * (bc["maxY"] - bc["minY"]) + bc["minY"]
-        x = x * (bc["maxX"] - bc["minX"]) + bc["minX"]
-        w = w * (bc["maxY"] - bc["minY"])
-        l = l * (bc["maxX"] - bc["minX"])
-
-        w -= 0.3
-        l -= 0.3
-
-        labels[n, :] = c, x, y, z, h, w, l, np.arctan2(im, re)
-        n += 1
-
-    return labels

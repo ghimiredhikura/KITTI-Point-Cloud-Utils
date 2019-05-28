@@ -2,6 +2,7 @@ import numpy as np
 import mayavi.mlab as mlab
 import cv2
 import kitti.kitti_util as utils
+import kitti.config as cnf
 
 def draw_lidar_simple(pc, color=None):
     ''' Draw lidar points. simplest set up. '''
@@ -137,7 +138,7 @@ def show_image_with_boxes(img, objects, calib, show3d=True):
         #cv2.rectangle(img2, (int(obj.xmin),int(obj.ymin)),
         #    (int(obj.xmax),int(obj.ymax)), (0,255,0), 2)
         box3d_pts_2d, box3d_pts_3d = utils.compute_box_3d(obj, calib.P)
-        img2 = utils.draw_projected_box3d(img2, box3d_pts_2d)
+        img2 = utils.draw_projected_box3d(img2, box3d_pts_2d, cnf.colors[obj.cls_id])
     if show3d:
         cv2.imshow("img", img2)
     return img2

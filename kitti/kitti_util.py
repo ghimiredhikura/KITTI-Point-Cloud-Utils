@@ -5,6 +5,7 @@ from __future__ import print_function
 import numpy as np
 import cv2
 import os
+import kitti.config as cnf
 
 class Object3d(object):
     ''' 3d object label '''
@@ -420,3 +421,48 @@ def draw_projected_box3d(image, qs, color=(255,0,255), thickness=2):
        i,j=k,k+4
        cv2.line(image, (qs[i,0],qs[i,1]), (qs[j,0],qs[j,1]), color, thickness)
     return image
+
+def camera_to_lidar(x, y, z, V2C=None,R0=None,P2=None):
+	p = np.array([x, y, z, 1])
+	if V2C is None or R0 is None:
+		p = np.matmul(cnf.R0_inv, p)
+		p = np.matmul(cnf.Tr_velo_to_cam_inv, p)
+	else:
+		R0_i = np.zeros((4,4))
+		R0_i[:3,:3] = R0
+		R0_i[3,3] = 1
+		p = np.matmul(np.linalg.inv(R0_i), p)
+		p = np.matmul(inverse_rigid_trans(V2C), p)
+	p = p[0:3]
+	return tuple(p)
+
+def lidar_to_camera(x, y, z,V2C=None, R0=None, P2=None):
+	p = np.array([x, y, z, 1])
+	if V2C is None or R0 is None:
+		p = np.matmul(cnf.Tr_velo_to_cam, p)
+		p = np.matmul(cnf.R0, p)
+	else:
+		p = np.matmul(V2C, p)
+		p = np.matmul(R0, p)
+	p = p[0:3]
+	return tuple(p)
+
+def camera_to_lidar_box(boxes, V2C=None, R0=None, P2=None):
+	# (N, 7) -> (N, 7) x,y,z,h,w,l,r
+	ret = []
+	for box in boxes:
+		x, y, z, h, w, l, ry = box
+		(x, y, z), h, w, l, rz = camera_to_lidar(
+			x, y, z,V2C=V2C, R0=R0, P2=P2), h, w, l, -ry - np.pi / 2
+		ret.append([x, y, z, h, w, l, rz])
+	return np.array(ret).reshape(-1, 7)
+
+def lidar_to_camera_box(boxes,V2C=None, R0=None, P2=None):
+	# (N, 7) -> (N, 7) x,y,z,h,w,l,r
+	ret = []
+	for box in boxes:
+		x, y, z, h, w, l, rz = box
+		(x, y, z), h, w, l, ry = lidar_to_camera(
+			x, y, z,V2C=V2C, R0=R0, P2=P2), h, w, l, -rz - np.pi / 2
+		ret.append([x, y, z, h, w, l, ry])
+	return np.array(ret).reshape(-1, 7)

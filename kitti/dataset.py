@@ -16,25 +16,23 @@ class KittiDataset(torch_data.Dataset):
         self.label_path = os.path.join(self.imageset_dir, 'label_2')
 
     def get_image(self, idx):
-        image_file = os.path.join(self.image_path, '%.6d.png' % idx)
+        image_file = os.path.join(self.image_path, '%s.png' % self.image_idx_list[idx])
+
         assert os.path.exists(image_file)
         return image_file
-        #return cv2.imread(image_file) # (H, W, C) -> (H, W, 3) OpenCV reads in BGR mode
     
     def get_lidar(self, idx):
-        lidar_file = os.path.join(self.lidar_path, '%.6d.bin' % idx)
+        lidar_file = os.path.join(self.lidar_path, '%s.bin' % self.image_idx_list[idx])
         assert os.path.exists(lidar_file)
         return lidar_file
-        #return np.fromfile(lidar_file, dtype=np.float32).reshape(-1, 4)
 
     def get_calib(self, idx):
-        calib_file = os.path.join(self.calib_path, '%.6d.txt' % idx)
+        calib_file = os.path.join(self.calib_path, '%s.txt' % self.image_idx_list[idx])
         assert os.path.exists(calib_file)
         return calib_file
-        #return Calibration(calib_file)
 
     def get_labels(self, idx):
-        label_file = os.path.join(self.label_path, '%.6d.txt' % idx)
+        label_file = os.path.join(self.label_path, '%s.txt' % self.image_idx_list[idx])
         assert os.path.exists(label_file)
         return label_file       
     

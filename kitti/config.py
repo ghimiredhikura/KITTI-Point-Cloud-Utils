@@ -13,19 +13,6 @@ CLASS_NAME_TO_ID = {
 	'Person_sitting': 	1,
 }
 
-'''
-boundary = {
-	"minX": 0,
-	"maxX": 40,
-	"minY": -40,
-	"maxY": 40,
-	"minZ": -2.73,
-	"maxZ": 1.27
-}
-BEV_WIDTH = 1024 # across y axis -40m ~ 40m
-BEV_HEIGHT = 512 # across x axis 0m ~ 40m
-'''
-
 boundary = {
     "minX": 0,
     "maxX": 50,
@@ -42,14 +29,7 @@ BEV_HEIGHT = 608 # across x axis 0m ~ 50m
 DISCRETIZATION = (boundary["maxX"] - boundary["minX"])/BEV_HEIGHT
 
 nms_iou_threshold = 0.1
-colors = [[0, 255, 255], [0, 0, 255], [255, 0, 0]]
-#anchors = [[1.26,1.56,0,0], [1.26,1.56,1,0], [0.472,0.32,0,0], [0.472,0.32,1,0], [0.472,0.704,0,0]]
-# Car/Van [0,90], Cyclist[0,90] Ped/Person_sitting[90]
-#anchors = [[0.8290, 1.7840, 0, 1], [0.8290, 1.7840, 1, 0], [0.8905, 0.9111, 0, 1], [0.8905, 0.9111, 1, 0], [0.9012, 0.5303, 1, 0]]
-anchors = [[0.8290, 1.7840, 0, 0], [0.8290, 1.7840, 1, 0], [0.5303, 0.9012, 0, 0], [0.5303, 0.9012, 1, 0], [0.8905, 0.9111, 0, 0]]
-
-conf_thresh = 0.3
-nms_thresh = 0.4
+colors = [[0, 255, 0], [0, 0, 255], [255, 0, 0]]
 
 Tr_velo_to_cam = np.array([
 		[7.49916597e-03, -9.99971248e-01, -8.65110297e-04, -6.71807577e-03],
