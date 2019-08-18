@@ -1,7 +1,6 @@
 # KITTI Point Cloud Utilities
 
-This repo serves as kitti point cloud dataset utilities. If someone 
-is working with kitti point cloud for the first time, this one is going to save a lot of time. 
+This repo serves as kitti point cloud dataset utilities. If you are working with kitti point cloud for the first time, this one is going to save you a lot of time. 
 
 Thank me later. ^^ 
 
