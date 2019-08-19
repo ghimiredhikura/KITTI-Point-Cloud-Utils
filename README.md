@@ -4,7 +4,7 @@ This repo serves as kitti point cloud dataset utilities. If you are working with
 
 Thank me later. ^^ 
 
-Following are the main functionality.
+**Following are the main functionality.**
 
 1. *Load Point Cloud and filter out points that are not in range of front camera fov*  
 2. *Display Point Cloud with object bbox using mayavi library*  
