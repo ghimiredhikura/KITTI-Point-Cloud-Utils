@@ -6,10 +6,10 @@ Thank me later. ^^
 
 **Following are the main functionality.**
 
-1. *Load Point Cloud and filter out points that are not in range of front camera fov*  
-2. *Display Point Cloud with object bbox using mayavi library*  
-3. *BEV Conversion and display with object bbox using opencv library*  
-4. *Project 3D bbox from lidar to camera and camera to lidar box*  
+- Load Point Cloud and filter out points that are not in range of front camera fov  
+- Display Point Cloud with object bbox using mayavi library  
+- BEV Conversion and display with object bbox using opencv library  
+- Project 3D bbox from lidar to camera and camera to lidar box  
 
 ### Installation
 
