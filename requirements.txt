@@ -1,5 +1,5 @@
 numpy
-torch==1.2.0+cpu 
+torch==2.2.0 
 torchvision==0.4.0+cpu
 mayavi==4.4.1
 opencv-python
